@@ -43,8 +43,9 @@ public class SkeletonAvatar : MonoBehaviour {
             {
                 pose.UpdateBoneLengthAndRotations();
                 drawSkeleton(pose.FK());
+                //drawSkeletonLines(pose.FK(), new Vector3(1.5f, 0, 0));
                 drawSkeletonLines(pose.Positions, new Vector3(1.5f, 0, 0));
-                printRotations(pose.Rotations);
+                printRotations(pose.LocalRotations);
             }
             else
             {
@@ -109,7 +110,7 @@ public class SkeletonAvatar : MonoBehaviour {
         joints3D = joints3D.ToList();
         for (int i = 0; i < joints3D.Count; i++)
         {
-            joints3D[i] += offset;
+//            joints3D[i] += offset;
         }
 
         var light_pink = color(233, 163, 201);
