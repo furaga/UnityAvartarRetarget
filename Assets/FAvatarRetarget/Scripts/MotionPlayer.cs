@@ -10,19 +10,12 @@ public class MotionPlayer : MonoBehaviour {
     public bool Loop = true;
     public bool Play = true;
 
-    public bool ConvertToRotations = false;
-
     private Motion motion_ = null;
     private int frame_ = 0;
 
 	// Use this for initialization
 	void Start () {
         motion_ = MotionLoader.Load(DataPath);
-
-        if (ConvertToRotations)
-        {
-            // todo:
-        }
 	}
 	
 	// Update is called once per frame
@@ -45,6 +38,7 @@ public class MotionPlayer : MonoBehaviour {
         {
             return null;
         }
-        return motion_.Poses[frame_];
+        var pose = motion_.Poses[frame_];
+        return pose;
     }
 }

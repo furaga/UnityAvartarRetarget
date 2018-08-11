@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class SkeletonAvatar : MonoBehaviour {
 
-    public GameObject LocationsPlayer;
+    public GameObject MotionPlayer;
+    public bool UseFK = false;
 
     private GameObject[] bones_ = null;
-    
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start () {
         bones_ = new GameObject[13];
         for (int i = 0; i < bones_.Length; i++)
         {
@@ -25,19 +26,27 @@ public class SkeletonAvatar : MonoBehaviour {
 
     void LateUpdate()
     {
-        Pose sk = null;
-        if (LocationsPlayer)
+        Pose pose = null;
+        if (MotionPlayer)
         {
-            var component = LocationsPlayer.GetComponent<MotionPlayer>();
+            var component = MotionPlayer.GetComponent<MotionPlayer>();
             if (component)
             {
-                 sk = component.GetCurrentPose();
+                 pose = component.GetCurrentPose();
             }
         }
 
-        if (sk!= null)
+        if (pose != null)
         {
-            drawSkeleton(sk.Positions);
+            if (UseFK)
+            {
+                pose.UpdateBoneLengthAndRotations();
+                drawSkeleton(pose.FK());
+            }
+            else
+            {
+                drawSkeleton(pose.Positions);
+            }
         }
     }
 
