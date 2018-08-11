@@ -122,7 +122,7 @@ public class MotionLoader
             {
                 return null;
             }
-            skeleton.Positions.Add(Js[bones[i]]);
+            skeleton.Positions.Add(Js[bones[i]] * 0.056444f);
         }
 
         return skeleton;
