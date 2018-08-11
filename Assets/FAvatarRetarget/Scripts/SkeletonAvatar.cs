@@ -5,11 +5,18 @@ using UnityEngine;
 public class SkeletonAvatar : MonoBehaviour {
 
     public GameObject LocationsPlayer;
+
+    private GameObject[] bones_ = null;
     
 	// Use this for initialization
 	void Start () {
-		
-	}
+        bones_ = new GameObject[13];
+        for (int i = 0; i < bones_.Length; i++)
+        {
+            bones_[i] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            bones_[i].transform.parent = gameObject.transform;
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -58,25 +65,28 @@ public class SkeletonAvatar : MonoBehaviour {
 
     void drawSkeleton(List<Vector3> joints3D)
     {
-        Debug.DrawLine(joints3D[(int)LSPJoints.RightAnkle], joints3D[(int)LSPJoints.RightKnee], Color.red);
-        Debug.DrawLine(joints3D[(int)LSPJoints.RightKnee], joints3D[(int)LSPJoints.RightHip], Color.red);
-
-        Debug.DrawLine(joints3D[(int)LSPJoints.LeftHip], joints3D[(int)LSPJoints.LeftKnee], Color.red);
-        Debug.DrawLine(joints3D[(int)LSPJoints.LeftKnee], joints3D[(int)LSPJoints.LeftAnkle], Color.red);
-
-        Debug.DrawLine(joints3D[(int)LSPJoints.RightWrist], joints3D[(int)LSPJoints.RightElbow], Color.red);
-        Debug.DrawLine(joints3D[(int)LSPJoints.RightElbow], joints3D[(int)LSPJoints.RightShoulder],
-            Color.red);
-
-        Debug.DrawLine(joints3D[(int)LSPJoints.LeftShoulder], joints3D[(int)LSPJoints.LeftElbow], Color.red);
-        Debug.DrawLine(joints3D[(int)LSPJoints.LeftElbow], joints3D[(int)LSPJoints.LeftWrist], Color.red);
-
-        Debug.DrawLine(joints3D[(int)LSPJoints.LeftShoulder], joints3D[(int)LSPJoints.LeftHip], Color.red);
-        Debug.DrawLine(joints3D[(int)LSPJoints.RightShoulder], joints3D[(int)LSPJoints.RightHip], Color.red);
-
-        Debug.DrawLine(joints3D[(int)LSPJoints.LeftShoulder], joints3D[(int)LSPJoints.Neck], Color.red);
-        Debug.DrawLine(joints3D[(int)LSPJoints.RightShoulder], joints3D[(int)LSPJoints.Neck], Color.red);
-
-        Debug.DrawLine(joints3D[(int)LSPJoints.Neck], joints3D[(int)LSPJoints.Head], Color.red);
+        int boneId = 0;
+        drawBone(boneId++, joints3D[(int)LSPJoints.RightAnkle], joints3D[(int)LSPJoints.RightKnee]);
+        drawBone(boneId++, joints3D[(int)LSPJoints.RightKnee], joints3D[(int)LSPJoints.RightHip]);
+        drawBone(boneId++, joints3D[(int)LSPJoints.LeftHip], joints3D[(int)LSPJoints.LeftKnee]);
+        drawBone(boneId++, joints3D[(int)LSPJoints.LeftKnee], joints3D[(int)LSPJoints.LeftAnkle]);
+        drawBone(boneId++, joints3D[(int)LSPJoints.RightWrist], joints3D[(int)LSPJoints.RightElbow]);
+        drawBone(boneId++, joints3D[(int)LSPJoints.RightElbow], joints3D[(int)LSPJoints.RightShoulder]);
+        drawBone(boneId++, joints3D[(int)LSPJoints.LeftShoulder], joints3D[(int)LSPJoints.LeftElbow]);
+        drawBone(boneId++, joints3D[(int)LSPJoints.LeftElbow], joints3D[(int)LSPJoints.LeftWrist]);
+        drawBone(boneId++, joints3D[(int)LSPJoints.LeftShoulder], joints3D[(int)LSPJoints.LeftHip]);
+        drawBone(boneId++, joints3D[(int)LSPJoints.RightShoulder], joints3D[(int)LSPJoints.RightHip]);
+        drawBone(boneId++, joints3D[(int)LSPJoints.LeftShoulder], joints3D[(int)LSPJoints.Neck]);
+        drawBone(boneId++, joints3D[(int)LSPJoints.RightShoulder], joints3D[(int)LSPJoints.Neck]);
+        drawBone(boneId++, joints3D[(int)LSPJoints.Neck], joints3D[(int)LSPJoints.Head]);
     }
+
+    void drawBone(int boneId, Vector3 src, Vector3 tgt)
+    {
+        float len = (tgt - src).magnitude;
+        bones_[boneId].transform.localScale = new Vector3(1.5f, len, 1.5f);
+        bones_[boneId].transform.rotation = Quaternion.FromToRotation(Vector3.up, tgt - src);
+        bones_[boneId].transform.position = (tgt + src) * 0.5f;
+    }
+
 }
