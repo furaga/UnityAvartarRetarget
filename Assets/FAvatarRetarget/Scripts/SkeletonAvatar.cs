@@ -7,7 +7,7 @@ public class SkeletonAvatar : MonoBehaviour {
 
     public GameObject MotionPlayer;
     public bool UseFK = false;
-
+    public bool MoveRoot = true;
     private GameObject[] bones_ = null;
 
     // Use this for initialization
@@ -43,8 +43,9 @@ public class SkeletonAvatar : MonoBehaviour {
             {
                 pose.UpdateBoneLengthAndRotations();
                 drawSkeleton(pose.FK());
-                drawSkeletonLines(pose.Positions, new Vector3(1.5f, 0, 0));
-                printRotations(pose.Rotations);
+                //drawSkeletonLines(pose.FK(), new Vector3(1.5f, 0, 0));
+                //drawSkeletonLines(pose.Positions, new Vector3(1.5f, 0, 0));
+                //printRotations(pose.LocalRotations);
             }
             else
             {
@@ -78,6 +79,22 @@ public class SkeletonAvatar : MonoBehaviour {
 
     void drawSkeleton(List<Vector3> joints3D)
     {
+        if (MoveRoot == false)
+        {
+            var hip = (joints3D[2] + joints3D[3]) * 0.5f;
+            for (int i = 0; i < joints3D.Count; i++)
+            {
+                joints3D[i] += gameObject.transform.position - hip;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < joints3D.Count; i++)
+            {
+                joints3D[i] += gameObject.transform.position;
+            }
+        }
+
         var light_pink = color(233, 163, 201);
         var pink = color(197, 27, 125);
         var light_blue = color(145, 191, 219);
@@ -109,7 +126,7 @@ public class SkeletonAvatar : MonoBehaviour {
         joints3D = joints3D.ToList();
         for (int i = 0; i < joints3D.Count; i++)
         {
-            joints3D[i] += offset;
+//            joints3D[i] += offset;
         }
 
         var light_pink = color(233, 163, 201);
