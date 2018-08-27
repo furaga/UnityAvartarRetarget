@@ -32,14 +32,14 @@ public class Pose
 
     public bool HasRotations = false;
     public List<float> BoneLengths = new List<float>();
-    public List<Quaternion> Rotations = new List<Quaternion>();
     public List<Quaternion> LocalRotations = new List<Quaternion>();
-    
+    public List<Quaternion> Rotations = new List<Quaternion>();
+
     public void UpdateBoneLengthAndRotations()
     {
         BoneLengths.Clear();
-        Rotations.Clear();
         LocalRotations.Clear();
+        Rotations.Clear();
         updateBoneLengths();
         updateBoneRotations();
         HasRotations = true;
@@ -97,55 +97,44 @@ public class Pose
         // 11: L Arm
         // 12: Neck
 
+        // Global Rotations
         for (int i = 0; i < 13; i++)
         {
-            LocalRotations.Add(Quaternion.identity);
+            Rotations.Add(Quaternion.identity);
         }
-
-        var hip = (Positions[2] + Positions[3]) * 0.5f;
-
-        var rotLeftDown = Quaternion.LookRotation(Vector3.left, Vector3.down);
-        var rotLeftUp = Quaternion.LookRotation(Vector3.left, Vector3.up);
-        LocalRotations[0] = calcRotation(Positions[3] - Positions[2], hip - Positions[12], rotLeftDown);
-
-        // calc global rotations
         var rotLeftForward = Quaternion.LookRotation(Vector3.left, Vector3.forward);
         var rotLeftBack = Quaternion.LookRotation(Vector3.left, Vector3.back);
-        // leg
-        LocalRotations[1] = calcRotation(Positions[1] - Positions[2], Positions[0] - Positions[1], rotLeftForward);
-        LocalRotations[2] = calcRotation(Positions[0] - Positions[1], Positions[2] - Positions[1], rotLeftForward); //
-        LocalRotations[3] = calcRotation(Positions[4] - Positions[3], Positions[5] - Positions[4], rotLeftForward);
-        LocalRotations[4] = calcRotation(Positions[5] - Positions[4], Positions[3] - Positions[4], rotLeftForward); //
-        // spine
-        LocalRotations[5] = calcRotation(Positions[12] - hip, Positions[3] - Positions[2], rotLeftDown);
-        // arm
-        LocalRotations[6] = calcRotation(Positions[8] - Positions[12], Positions[9] - Positions[8], rotLeftUp); //
-        LocalRotations[7] = calcRotation(Positions[7] - Positions[8], Positions[6] - Positions[7], rotLeftBack);
-        LocalRotations[8] = calcRotation(Positions[6] - Positions[7], Positions[8] - Positions[7], rotLeftBack);
-        LocalRotations[9] = calcRotation(Positions[9] - Positions[12], Positions[9] - Positions[8], rotLeftUp);
-        LocalRotations[10] = calcRotation(Positions[10] - Positions[9], Positions[11] - Positions[10], rotLeftBack);
-        LocalRotations[11] = calcRotation(Positions[11] - Positions[10], Positions[9] - Positions[10], rotLeftBack);
-        // neck
-        LocalRotations[12] = calcRotation(Positions[13] - Positions[12], Positions[9] - Positions[8], rotLeftDown);
+        var rotLeftDown = Quaternion.LookRotation(Vector3.left, Vector3.down);
+        var rotLeftUp = Quaternion.LookRotation(Vector3.left, Vector3.up);
+        var hip = (Positions[2] + Positions[3]) * 0.5f;
+        Rotations[0] = globalRotation(Positions[3] - Positions[2], hip - Positions[12], rotLeftDown);
+        Rotations[1] = globalRotation(Positions[1] - Positions[2], Positions[0] - Positions[1], rotLeftForward);
+        Rotations[2] = globalRotation(Positions[0] - Positions[1], Positions[2] - Positions[1], rotLeftForward); //
+        Rotations[3] = globalRotation(Positions[4] - Positions[3], Positions[5] - Positions[4], rotLeftForward);
+        Rotations[4] = globalRotation(Positions[5] - Positions[4], Positions[3] - Positions[4], rotLeftForward); //
+        Rotations[5] = globalRotation(Positions[12] - hip, Positions[3] - Positions[2], rotLeftDown);
+        Rotations[6] = globalRotation(Positions[8] - Positions[12], Positions[9] - Positions[8], rotLeftUp); //
+        Rotations[7] = globalRotation(Positions[7] - Positions[8], Positions[6] - Positions[7], rotLeftBack);
+        Rotations[8] = globalRotation(Positions[6] - Positions[7], Positions[8] - Positions[7], rotLeftBack);
+        Rotations[9] = globalRotation(Positions[9] - Positions[12], Positions[9] - Positions[8], rotLeftUp);
+        Rotations[10] = globalRotation(Positions[10] - Positions[9], Positions[11] - Positions[10], rotLeftBack);
+        Rotations[11] = globalRotation(Positions[11] - Positions[10], Positions[9] - Positions[10], rotLeftBack);
+        Rotations[12] = globalRotation(Positions[13] - Positions[12], Positions[9] - Positions[8], rotLeftDown);
 
-        Rotations = LocalRotations.ToList();
-        
-
-        // Convert Global Rotations to Local Rotations
-        var invRoot = Quaternion.Inverse(LocalRotations[0]);
-        var invRULeg = Quaternion.Inverse(LocalRotations[1]);
-        var invLULeg = Quaternion.Inverse(LocalRotations[3]);
-        var invSpine = Quaternion.Inverse(LocalRotations[5]);
-        var invRShoulder = Quaternion.Inverse(LocalRotations[6]);
-        var invRUArm = Quaternion.Inverse(LocalRotations[7]);
-        var invLShoulder = Quaternion.Inverse(LocalRotations[9]);
-        var invLUArm = Quaternion.Inverse(LocalRotations[10]);
-
+        // Local Rotations
+        var invRoot = Quaternion.Inverse(Rotations[0]);
+        var invRULeg = Quaternion.Inverse(Rotations[1]);
+        var invLULeg = Quaternion.Inverse(Rotations[3]);
+        var invSpine = Quaternion.Inverse(Rotations[5]);
+        var invRShoulder = Quaternion.Inverse(Rotations[6]);
+        var invRUArm = Quaternion.Inverse(Rotations[7]);
+        var invLShoulder = Quaternion.Inverse(Rotations[9]);
+        var invLUArm = Quaternion.Inverse(Rotations[10]);
+        LocalRotations = Rotations.ToList();
         LocalRotations[1] = invRoot * LocalRotations[1];
         LocalRotations[2] = invRULeg * LocalRotations[2];
         LocalRotations[3] = invRoot * LocalRotations[3];
         LocalRotations[4] = invLULeg * LocalRotations[4];
-//        Rotations[5] = Rotations[5];
         LocalRotations[6] = invSpine * LocalRotations[6];
         LocalRotations[7] = invRShoulder * LocalRotations[7];
         LocalRotations[8] = invRUArm * LocalRotations[8];
@@ -155,7 +144,7 @@ public class Pose
         LocalRotations[12] = invSpine * LocalRotations[12];
     }
 
-    Quaternion calcRotation(Vector3 boneDirection, Vector3 left, Quaternion init)
+    Quaternion globalRotation(Vector3 boneDirection, Vector3 left, Quaternion init)
     {
         var d = boneDirection;
         var up = Vector3.Cross(d, left);
@@ -165,7 +154,7 @@ public class Pose
         var rot = target * Quaternion.Inverse(init);
         return rot;
     }
-    
+
     public List<Vector3> FK()
     {
         var positions = Positions.ToList();
@@ -191,32 +180,29 @@ public class Pose
         };
 
         // fk results = joint positions
-        Vector3[] fk = new Vector3[15];
-        fk[14] = hip;
+        Vector3[] fkPositions = new Vector3[15];
+        fkPositions[14] = hip;
 
         // global rotations
-        Quaternion[] gRots = new Quaternion[15];
-        gRots[14] = Quaternion.identity;
+        Quaternion[] globalRotations = new Quaternion[15];
+        globalRotations[14] = Quaternion.identity;
 
         for (int i = 0; i < joints.Length; i++)
         {
-            float l = lengths[i];
-            Quaternion r = rots[i];
+            float len = lengths[i];
+            Quaternion localRot = rots[i];
             int j = joints[i];
             int p = parentJoints[i];
-
-            Vector3 pPos = fk[p];
-            Quaternion pRot = gRots[p];
-
-            Quaternion rot = pRot * r;
-            Vector3 translate = rot * Vector3.left * l;
+            Vector3 pPos = fkPositions[p];
+            Quaternion parentRot = globalRotations[p];
+            Quaternion globalRot = parentRot * localRot;
+            Vector3 translate = globalRot * Vector3.left * len;
             Vector3 pos = pPos + translate;
-
-            fk[j] = pos;
-            gRots[j] = rot;
+            fkPositions[j] = pos;
+            globalRotations[j] = globalRot;
         }
 
-        return fk.Take(14).ToList();
+        return fkPositions.Take(14).ToList();
     }
 
 }
