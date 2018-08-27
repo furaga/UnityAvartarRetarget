@@ -32,3 +32,15 @@ You can use this asset for any purpose. Of coource, commercial use is OK, except
 2. Open any of scenes in Assets/JustWithJoint/Scenes and run
 3. You can find one or more avatars are animating.
 
+
+## 3D models
+
+We use the folowing third-party 3D models.
+
+1. Unity-chan model, version 1.2.1
+   - We downloaded from http://unity-chan.com/download/index.php
+   - Copyright: © Unity Technologies Japan/UCL
+
+2. Alicia (ニコニコ立体ちゃん), version 4
+   - We downloaded from http://3d.nicovideo.jp/works/td14712
+

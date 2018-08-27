@@ -38,4 +38,5 @@ sysinfo.txt
 
 # Additinoal ignores
 .idea/
-Assets/UnityChan*
+Assets/JustWithJoints/UnityChan
+Assets/JustWithJoints/Alicia
