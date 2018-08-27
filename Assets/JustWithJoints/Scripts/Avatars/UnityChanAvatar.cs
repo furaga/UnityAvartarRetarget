@@ -13,27 +13,7 @@ namespace JustWithJoints.Avatars
 
         List<GameObject> joints_ = new List<GameObject>();
         List<GameObject> bones_ = new List<GameObject>();
-
-        // The local coordinates of Alicia are not same as Core.Pose.
-        // Fix the differences by multipling correction rotations
-        public
-        Vector3[] correctionRightEulers = new Vector3[13]
-{
-            new Vector3(0, 0, 0),
-            new Vector3(0, 0, 0),
-            new Vector3(0, 0, 0),
-            new Vector3(0, 0, 0),
-            new Vector3(0, 0, 0),
-            new Vector3(0, 0, 0),
-            new Vector3(0, 0, 0),
-            new Vector3(0, 0, 0),
-            new Vector3(0, 0, 0),
-            new Vector3(0, 0, 0),
-            new Vector3(0, 0, 0),
-            new Vector3(0, 0, 0),
-            new Vector3(0, 0, 0),
-};
-
+        
         // Use this for initialization
         void Start()
         {
@@ -131,7 +111,7 @@ namespace JustWithJoints.Avatars
                             // Skip spine
                             continue;
                         }
-                        bones_[i].transform.rotation = pose.Rotations[boneIndex] * Quaternion.Euler(correctionRightEulers[i]);
+                        bones_[i].transform.rotation = pose.Rotations[boneIndex];
                     }
                 }
             }

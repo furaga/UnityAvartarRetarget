@@ -33,9 +33,9 @@ namespace JustWithJoints.Core
         void calculateBoneLengths()
         {
             // Posiitons are in the lsp order.
-            // 14 means hip
             int[] boneJoints = new int[]
             {
+                // 14 means hip
                 2, 3,
                 2, 1,
                 1, 0,
@@ -67,21 +67,6 @@ namespace JustWithJoints.Core
 
         void calculateBoneRotations()
         {
-            // [Bone]
-            // 0: Trans
-            // 1: R ULeg
-            // 2: R Leg
-            // 3: L ULeg
-            // 4: L Leg
-            // 5: Spine
-            // 6: R Shoulder
-            // 7: R UArm
-            // 8: R Arm
-            // 9: L Shoulder
-            // 10: L UArm
-            // 11: L Arm
-            // 12: Neck
-
             // Global Rotations
             for (int i = 0; i < 13; i++)
             {
@@ -153,22 +138,13 @@ namespace JustWithJoints.Core
             var rots = LocalRotations.ToList();
             rots.Insert(0, rots[0]);
 
-            int[] joints = new int[]
-            {
-            2, 3, 1, 0, 4, 5, 12, 8, 7, 6, 9, 10, 11, 13,
-            };
+            int[] joints = new int[] { 2, 3, 1, 0, 4, 5, 12, 8, 7, 6, 9, 10, 11, 13, };
 
             // 14 means hip
-            int[] parentJoints = new int[]
-            {
-            14, 14, 2, 1, 3, 4, 14, 12, 8, 7, 12, 9, 10, 12,
-            };
+            int[] parentJoints = new int[] { 14, 14, 2, 1, 3, 4, 14, 12, 8, 7, 12, 9, 10, 12, };
 
-            // fk results = joint positions
             Vector3[] fkPositions = new Vector3[15];
             fkPositions[14] = hip;
-
-            // global rotations
             Quaternion[] globalRotations = new Quaternion[15];
             globalRotations[14] = Quaternion.identity;
 
