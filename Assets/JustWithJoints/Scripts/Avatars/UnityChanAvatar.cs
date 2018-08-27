@@ -8,38 +8,11 @@ namespace JustWithJoints.Avatars
     public class UnityChanAvatar : MonoBehaviour
     {
         public GameObject MotionPlayer;
-        public bool EnableRetargetting = true;
-        public bool RetargetTranslation = true;
+        public bool RetargetPose = true;
+        public bool RetargetRootLocation = true;
 
-        List<GameObject> joints = new List<GameObject>();
+        List<GameObject> joints_ = new List<GameObject>();
         List<GameObject> bones_ = new List<GameObject>();
-
-        //--------------------------------------------------
-        // For Debugging
-        //--------------------------------------------------
-        /*public */
-        bool UseTPose = false;
-        const float ratio = 0.5f;
-        /*public */
-        Vector3[] TPose = new Vector3[] {
-        new Vector3(-1, 0, 0) * ratio,
-        new Vector3(-1, 1, 0) * ratio,
-        new Vector3(-1, 2, 0) * ratio,
-        new Vector3(1, 2, 0) * ratio,
-        new Vector3(1, 1, 0) * ratio,
-        new Vector3(1, 0, 0) * ratio,
-        new Vector3(-3, 4, 0) * ratio,
-        new Vector3(-2, 4, 0) * ratio,
-        new Vector3(-1, 4, 0) * ratio,
-        new Vector3(1, 4, 0) * ratio,
-        new Vector3(2, 4, 0) * ratio,
-        new Vector3(3, 4, 0) * ratio,
-        new Vector3(0, 4, 0) * ratio,
-        new Vector3(0, 5, 0) * ratio,
-    };
-        //--------------------------------------------------
-        // For Debugging
-        //--------------------------------------------------
 
 
         // Use this for initialization
@@ -69,39 +42,39 @@ namespace JustWithJoints.Avatars
             var neck = spine2.transform.Find("Character1_Neck").gameObject;
             var head = neck.transform.Find("Character1_Head").gameObject;
 
-            joints.AddRange(new GameObject[]
+            joints_.AddRange(new GameObject[]
             {
-            rightFoot,
-            rightLeg,
-            rightUpLeg,
-            leftUpLeg,
-            leftLeg,
-            leftFoot,
-            rightHand,
-            rightForeArm,
-            rightShoulder,
-            leftShoulder,
-            leftForeArm,
-            leftHand,
-            neck,
-            head,
+                rightFoot,
+                rightLeg,
+                rightUpLeg,
+                leftUpLeg,
+                leftLeg,
+                leftFoot,
+                rightHand,
+                rightForeArm,
+                rightShoulder,
+                leftShoulder,
+                leftForeArm,
+                leftHand,
+                neck,
+                head,
             });
 
             bones_.AddRange(new GameObject[]
             {
-            hips,
-            rightUpLeg,
-            rightLeg,
-            leftUpLeg,
-            leftLeg,
-            spine,
-            rightShoulder,
-            rightArm,
-            rightForeArm,
-            leftShoulder,
-            leftArm,
-            leftForeArm,
-            neck,
+                hips,
+                rightUpLeg,
+                rightLeg,
+                leftUpLeg,
+                leftLeg,
+                spine,
+                rightShoulder,
+                rightArm,
+                rightForeArm,
+                leftShoulder,
+                leftArm,
+                leftForeArm,
+                neck,
             });
         }
 
@@ -114,27 +87,18 @@ namespace JustWithJoints.Avatars
                 if (component)
                 {
                     pose = component.GetCurrentPose();
-
-                    // Just for debugging
-                    if (UseTPose)
-                    {
-                        pose.Positions = TPose.ToList();
-                    }
                 }
             }
 
             if (pose != null)
             {
-                if (EnableRetargetting)
+                if (RetargetRootLocation)
                 {
-                    // Retarget positions
-                    if (RetargetTranslation)
-                    {
-                        bones_[0].transform.position = (pose.Positions[2] + pose.Positions[3]) * 0.5f + gameObject.transform.position;
-                    }
+                    bones_[0].transform.position = (pose.Positions[2] + pose.Positions[3]) * 0.5f + gameObject.transform.position;
+                }
 
-                    // Retarget rotations
-                    pose.UpdateBoneLengthAndRotations();
+                if (RetargetPose)
+                {
                     for (int i = 0; i < 13; i++)
                     {
                         // 1. Use spine's rotation of mocap as root rotation of avatar

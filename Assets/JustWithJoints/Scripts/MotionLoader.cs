@@ -99,35 +99,35 @@ namespace JustWithJoints
         static Core.Pose ToPose(int frame, Dictionary<string, Vector3> Js)
         {
             string[] bones = {
-            "rtibia",
-            "rfemur",
-            "rhipjoint",
-            "lhipjoint",
-            "lfemur",
-            "ltibia", //5
-            "rwrist",
-            "rhumerus",
-            "rclavicle",
-            "lclavicle",
-            "lhumerus",
-            "lwrist",
-            "thorax",
-            "head",
-        };
+                "rtibia",
+                "rfemur",
+                "rhipjoint",
+                "lhipjoint",
+                "lfemur",
+                "ltibia", //5
+                "rwrist",
+                "rhumerus",
+                "rclavicle",
+                "lclavicle",
+                "lhumerus",
+                "lwrist",
+                "thorax",
+                "head",
+            };
 
-            Core.Pose skeleton = new Core.Pose();
-            skeleton.Frame = frame;
-
+            var positions = new List<Vector3>();
             for (int i = 0; i < bones.Length; i++)
             {
                 if (Js.ContainsKey(bones[i]) == false)
                 {
                     return null;
                 }
-                skeleton.Positions.Add(Js[bones[i]] * 0.056444f);
+                positions.Add(Js[bones[i]] * 0.056444f);
             }
 
-            return skeleton;
+            Core.Pose pose = new Core.Pose(frame, positions);
+
+            return pose;
         }
     }
 

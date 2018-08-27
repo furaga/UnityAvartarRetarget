@@ -7,13 +7,11 @@ namespace JustWithJoints.Avatars
 {
     public class SkeletonAvatar : MonoBehaviour
     {
-
         public GameObject MotionPlayer;
         public bool UseFK = false;
         public bool MoveRoot = true;
         private GameObject[] bones_ = null;
 
-        // Use this for initialization
         void Start()
         {
             bones_ = new GameObject[13];
@@ -22,12 +20,6 @@ namespace JustWithJoints.Avatars
                 bones_[i] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 bones_[i].transform.parent = gameObject.transform;
             }
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
         void LateUpdate()
@@ -46,11 +38,9 @@ namespace JustWithJoints.Avatars
             {
                 if (UseFK)
                 {
-                    pose.UpdateBoneLengthAndRotations();
                     drawSkeleton(pose.FK());
                     //drawSkeletonLines(pose.FK(), new Vector3(1.5f, 0, 0));
                     //drawSkeletonLines(pose.Positions, new Vector3(1.5f, 0, 0));
-                    //printRotations(pose.LocalRotations);
                 }
                 else
                 {
@@ -62,24 +52,6 @@ namespace JustWithJoints.Avatars
         Color color(int r, int g, int b)
         {
             return new Color(r / 255.0f, g / 255.0f, b / 255.0f);
-        }
-
-        public GameObject DebugText;
-
-        void printRotations(List<Quaternion> rotations)
-        {
-            if (DebugText)
-            {
-                string text = "";
-                for (int i = 0; i < rotations.Count; i++)
-                {
-                    var q = rotations[i];
-                    text += string.Format("{0}: {1: 0.00}, {2: 0.00}, {3: 0.00}, {4: 0.00}\n", i, q.x, q.y, q.z, q.w);
-                }
-
-
-                DebugText.GetComponent<UnityEngine.UI.Text>().text = text;
-            }
         }
 
         void drawSkeleton(List<Vector3> joints3D)

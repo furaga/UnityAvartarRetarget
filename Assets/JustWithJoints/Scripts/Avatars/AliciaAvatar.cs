@@ -31,36 +31,6 @@ namespace JustWithJoints.Avatars
         new Vector3(0, -90, 180),
 };
 
-        //--------------------------------------------------
-        // For Debugging
-        //--------------------------------------------------
-
-        /*public*/
-        bool UseTPose = false;
-        const float ratio = 0.5f;
-        /*public*/
-        Vector3[] TPose = new Vector3[] {
-        new Vector3(-1, 0, 0) * ratio,
-        new Vector3(-1, 1, 0) * ratio,
-        new Vector3(-1, 2, 0) * ratio,
-        new Vector3(1, 2, 0) * ratio,
-        new Vector3(1, 1, 0) * ratio,
-        new Vector3(1, 0, 0) * ratio,
-        new Vector3(-3, 4, 0) * ratio,
-        new Vector3(-2, 4, 0) * ratio,
-        new Vector3(-1, 4, 0) * ratio,
-        new Vector3(1, 4, 0) * ratio,
-        new Vector3(2, 4, 0) * ratio,
-        new Vector3(3, 4, 0) * ratio,
-        new Vector3(0, 4, 0) * ratio,
-        new Vector3(0, 5, 0) * ratio,
-    };
-        /*public*/
-        GameObject DebugText;
-        //--------------------------------------------------
-        // For Debugging
-        //--------------------------------------------------
-
 
         // Use this for initialization
         void Start()
@@ -133,26 +103,20 @@ namespace JustWithJoints.Avatars
                 if (component)
                 {
                     pose = component.GetCurrentPose();
-                    if (pose != null && UseTPose)
-                    {
-                        // Just for debugging
-                        pose.Positions = TPose.ToList();
-                    }
                 }
             }
 
             if (pose != null)
             {
+                // Retarget positions
+                if (RetargetTranslation)
+                {
+                    bones_[0].transform.position = (pose.Positions[2] + pose.Positions[3]) * 0.5f + gameObject.transform.position;
+                }
+
                 if (EnableRetargetting)
                 {
-                    // Retarget positions
-                    if (RetargetTranslation)
-                    {
-                        bones_[0].transform.position = (pose.Positions[2] + pose.Positions[3]) * 0.5f + gameObject.transform.position;
-                    }
-
                     // Retarget rotations
-                    pose.UpdateBoneLengthAndRotations();
                     for (int i = 0; i < 13; i++)
                     {
                         // Use spine's rotation of mocap as root rotation of avatar

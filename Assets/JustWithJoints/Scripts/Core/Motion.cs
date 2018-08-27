@@ -31,42 +31,44 @@ namespace JustWithJoints.Core
     public class Pose
     {
         public int Frame;
-        public List<Vector3> Positions = new List<Vector3> { };
 
-        public bool HasRotations = false;
+        public List<Vector3> Positions;
         public List<float> BoneLengths = new List<float>();
         public List<Quaternion> LocalRotations = new List<Quaternion>();
         public List<Quaternion> Rotations = new List<Quaternion>();
 
-        public void UpdateBoneLengthAndRotations()
+        public Pose(int frame, List<Vector3> positons)
         {
-            BoneLengths.Clear();
-            LocalRotations.Clear();
-            Rotations.Clear();
-            updateBoneLengths();
-            updateBoneRotations();
-            HasRotations = true;
+            Frame = frame;
+            Positions = positons.ToList();
+            Refresh();
         }
 
-        void updateBoneLengths()
+        public void Refresh()
+        {
+            calculateBoneLengths();
+            calculateBoneRotations();
+        }
+
+        void calculateBoneLengths()
         {
             // Posiitons are in the lsp order.
             // 14 means hip
             int[] boneJoints = new int[]
             {
-            2, 3,
-            2, 1,
-            1, 0,
-            3, 4,
-            4, 5,
-            14, 12,
-            12, 8,
-            8, 7,
-            7, 6,
-            12, 9,
-            9, 10,
-            10, 11,
-            12, 13,
+                2, 3,
+                2, 1,
+                1, 0,
+                3, 4,
+                4, 5,
+                14, 12,
+                12, 8,
+                8, 7,
+                7, 6,
+                12, 9,
+                9, 10,
+                10, 11,
+                12, 13,
             };
 
             var positions = Positions.ToList();
@@ -83,7 +85,7 @@ namespace JustWithJoints.Core
             }
         }
 
-        void updateBoneRotations()
+        void calculateBoneRotations()
         {
             // [Bone]
             // 0: Trans
@@ -110,19 +112,19 @@ namespace JustWithJoints.Core
             var rotLeftDown = Quaternion.LookRotation(Vector3.left, Vector3.down);
             var rotLeftUp = Quaternion.LookRotation(Vector3.left, Vector3.up);
             var hip = (Positions[2] + Positions[3]) * 0.5f;
-            Rotations[0] = globalRotation(Positions[3] - Positions[2], hip - Positions[12], rotLeftDown);
-            Rotations[1] = globalRotation(Positions[1] - Positions[2], Positions[0] - Positions[1], rotLeftForward);
-            Rotations[2] = globalRotation(Positions[0] - Positions[1], Positions[2] - Positions[1], rotLeftForward); //
-            Rotations[3] = globalRotation(Positions[4] - Positions[3], Positions[5] - Positions[4], rotLeftForward);
-            Rotations[4] = globalRotation(Positions[5] - Positions[4], Positions[3] - Positions[4], rotLeftForward); //
-            Rotations[5] = globalRotation(Positions[12] - hip, Positions[3] - Positions[2], rotLeftDown);
-            Rotations[6] = globalRotation(Positions[8] - Positions[12], Positions[9] - Positions[8], rotLeftUp); //
-            Rotations[7] = globalRotation(Positions[7] - Positions[8], Positions[6] - Positions[7], rotLeftBack);
-            Rotations[8] = globalRotation(Positions[6] - Positions[7], Positions[8] - Positions[7], rotLeftBack);
-            Rotations[9] = globalRotation(Positions[9] - Positions[12], Positions[9] - Positions[8], rotLeftUp);
-            Rotations[10] = globalRotation(Positions[10] - Positions[9], Positions[11] - Positions[10], rotLeftBack);
-            Rotations[11] = globalRotation(Positions[11] - Positions[10], Positions[9] - Positions[10], rotLeftBack);
-            Rotations[12] = globalRotation(Positions[13] - Positions[12], Positions[9] - Positions[8], rotLeftDown);
+            Rotations[0] = calculateGlobalRotation(Positions[3] - Positions[2], hip - Positions[12], rotLeftDown);
+            Rotations[1] = calculateGlobalRotation(Positions[1] - Positions[2], Positions[0] - Positions[1], rotLeftForward);
+            Rotations[2] = calculateGlobalRotation(Positions[0] - Positions[1], Positions[2] - Positions[1], rotLeftForward); //
+            Rotations[3] = calculateGlobalRotation(Positions[4] - Positions[3], Positions[5] - Positions[4], rotLeftForward);
+            Rotations[4] = calculateGlobalRotation(Positions[5] - Positions[4], Positions[3] - Positions[4], rotLeftForward); //
+            Rotations[5] = calculateGlobalRotation(Positions[12] - hip, Positions[3] - Positions[2], rotLeftDown);
+            Rotations[6] = calculateGlobalRotation(Positions[8] - Positions[12], Positions[9] - Positions[8], rotLeftUp); //
+            Rotations[7] = calculateGlobalRotation(Positions[7] - Positions[8], Positions[6] - Positions[7], rotLeftBack);
+            Rotations[8] = calculateGlobalRotation(Positions[6] - Positions[7], Positions[8] - Positions[7], rotLeftBack);
+            Rotations[9] = calculateGlobalRotation(Positions[9] - Positions[12], Positions[9] - Positions[8], rotLeftUp);
+            Rotations[10] = calculateGlobalRotation(Positions[10] - Positions[9], Positions[11] - Positions[10], rotLeftBack);
+            Rotations[11] = calculateGlobalRotation(Positions[11] - Positions[10], Positions[9] - Positions[10], rotLeftBack);
+            Rotations[12] = calculateGlobalRotation(Positions[13] - Positions[12], Positions[9] - Positions[8], rotLeftDown);
 
             // Local Rotations
             var invRoot = Quaternion.Inverse(Rotations[0]);
@@ -147,7 +149,7 @@ namespace JustWithJoints.Core
             LocalRotations[12] = invSpine * LocalRotations[12];
         }
 
-        Quaternion globalRotation(Vector3 boneDirection, Vector3 left, Quaternion init)
+        Quaternion calculateGlobalRotation(Vector3 boneDirection, Vector3 left, Quaternion init)
         {
             var d = boneDirection;
             var up = Vector3.Cross(d, left);
@@ -213,14 +215,5 @@ namespace JustWithJoints.Core
     public class Motion
     {
         public List<Pose> Poses = new List<Pose>();
-
-        public void UpdateBoneLengthAndRotations()
-        {
-            foreach (var p in Poses)
-            {
-                p.UpdateBoneLengthAndRotations();
-            }
-        }
     }
-
 }
