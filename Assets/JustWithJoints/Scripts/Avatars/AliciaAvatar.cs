@@ -7,62 +7,33 @@ namespace JustWithJoints.Avatars
 {
     public class AliciaAvatar : MonoBehaviour
     {
-        public GameObject MotionPlayer;
+        public GameObject MotionProvider;
         public bool EnableRetargetting = true;
         public bool RetargetTranslation = true;
 
         List<GameObject> joints = new List<GameObject>();
         List<GameObject> bones_ = new List<GameObject>();
-        /*public*/
-        Vector3[] correctionRightEulers = new Vector3[13]
-{
-        new Vector3(0, -90, 180),
-        new Vector3(0, 90, -90),
-        new Vector3(0, 90, -90),
-        new Vector3(0, 90, -90),
-        new Vector3(0, 90, -90),
-        new Vector3(0, 0, 0),
-        new Vector3(0, 0, 0),
-        new Vector3(0, -90, 180),
-        new Vector3(0, -90, 180),
-        new Vector3(0, 0, 0),
-        new Vector3(0, 90, 180),
-        new Vector3(0, 90, 180),
-        new Vector3(0, -90, 180),
-};
 
-        //--------------------------------------------------
-        // For Debugging
-        //--------------------------------------------------
-
-        /*public*/
-        bool UseTPose = false;
-        const float ratio = 0.5f;
-        /*public*/
-        Vector3[] TPose = new Vector3[] {
-        new Vector3(-1, 0, 0) * ratio,
-        new Vector3(-1, 1, 0) * ratio,
-        new Vector3(-1, 2, 0) * ratio,
-        new Vector3(1, 2, 0) * ratio,
-        new Vector3(1, 1, 0) * ratio,
-        new Vector3(1, 0, 0) * ratio,
-        new Vector3(-3, 4, 0) * ratio,
-        new Vector3(-2, 4, 0) * ratio,
-        new Vector3(-1, 4, 0) * ratio,
-        new Vector3(1, 4, 0) * ratio,
-        new Vector3(2, 4, 0) * ratio,
-        new Vector3(3, 4, 0) * ratio,
-        new Vector3(0, 4, 0) * ratio,
-        new Vector3(0, 5, 0) * ratio,
-    };
-        /*public*/
-        GameObject DebugText;
-        //--------------------------------------------------
-        // For Debugging
-        //--------------------------------------------------
+        // The local coordinates of Alicia are not same as Core.Pose.
+        // Fix the differences by multipling correction rotations
+        /*public*/ Vector3[] correctionRightEulers = new Vector3[13]
+        {
+            new Vector3(0, -90, 180),
+            new Vector3(0, 90, -90),
+            new Vector3(0, 90, -90),
+            new Vector3(0, 90, -90),
+            new Vector3(0, 90, -90),
+            new Vector3(0, 0, 0),
+            new Vector3(0, 0, 0),
+            new Vector3(0, -90, 180),
+            new Vector3(0, -90, 180),
+            new Vector3(0, 0, 0),
+            new Vector3(0, 90, 180),
+            new Vector3(0, 90, 180),
+            new Vector3(0, -90, 180),
+        };
 
 
-        // Use this for initialization
         void Start()
         {
             var root = gameObject.transform.Find("Character001").transform.Find("root").gameObject;
@@ -90,85 +61,81 @@ namespace JustWithJoints.Avatars
 
             joints.AddRange(new GameObject[]
             {
-            rightFoot,
-            rightLeg,
-            rightUpLeg,
-            leftUpLeg,
-            leftLeg,
-            leftFoot,
-            rightHand,
-            rightForeArm,
-            rightShoulder,
-            leftShoulder,
-            leftForeArm,
-            leftHand,
-            neck,
-            head,
+                rightFoot,
+                rightLeg,
+                rightUpLeg,
+                leftUpLeg,
+                leftLeg,
+                leftFoot,
+                rightHand,
+                rightForeArm,
+                rightShoulder,
+                leftShoulder,
+                leftForeArm,
+                leftHand,
+                neck,
+                head,
             });
 
             bones_.AddRange(new GameObject[]
             {
-            hips,
-            rightUpLeg,
-            rightLeg,
-            leftUpLeg,
-            leftLeg,
-            spine,
-            rightShoulder,
-            rightArm,
-            rightForeArm,
-            leftShoulder,
-            leftArm,
-            leftForeArm,
-            neck,
+                hips,
+                rightUpLeg,
+                rightLeg,
+                leftUpLeg,
+                leftLeg,
+                spine,
+                rightShoulder,
+                rightArm,
+                rightForeArm,
+                leftShoulder,
+                leftArm,
+                leftForeArm,
+                neck,
             });
         }
 
         void LateUpdate()
         {
+            // Get pose
             Core.Pose pose = null;
-            if (MotionPlayer)
+            if (MotionProvider)
             {
-                var component = MotionPlayer.GetComponent<MotionPlayer>();
+                var component = MotionProvider.GetComponent<CMUMotionPlayer>();
                 if (component)
                 {
                     pose = component.GetCurrentPose();
-                    if (pose != null && UseTPose)
-                    {
-                        // Just for debugging
-                        pose.Positions = TPose.ToList();
-                    }
                 }
             }
 
+            // Retarget
             if (pose != null)
             {
+                // Retarget positions
+                if (RetargetTranslation)
+                {
+                    bones_[0].transform.position = (pose.Positions[2] + pose.Positions[3]) * 0.5f + gameObject.transform.position;
+                }
+
                 if (EnableRetargetting)
                 {
-                    // Retarget positions
-                    if (RetargetTranslation)
-                    {
-                        bones_[0].transform.position = (pose.Positions[2] + pose.Positions[3]) * 0.5f + gameObject.transform.position;
-                    }
-
                     // Retarget rotations
-                    pose.UpdateBoneLengthAndRotations();
                     for (int i = 0; i < 13; i++)
                     {
-                        // Use spine's rotation of mocap as root rotation of avatar
                         int boneIndex = i;
-                        if (i == 0)
+                        if (i == (int)Core.BoneType.Trans)
                         {
-                            boneIndex = 5;
+                            // Use spine as root of avatar
+                            boneIndex = (int)Core.BoneType.Spine;
                         }
-                        if (i == 5)
+                        if (i == (int)Core.BoneType.Spine)
                         {
-                            // Instead, do not retarget to spine's rotation
+                            // Skip spine
                             continue;
                         }
-                        if (i == 6 || i == 9)
+                        if (i == (int)Core.BoneType.RightShoulder || i == (int)Core.BoneType.LeftShoulder)
                         {
-                            // skip shoulders
+                            // Skip shoulders because bone hierarchy is not same as Core.Pose
                             continue;
                         }
                         bones_[i].transform.rotation = pose.Rotations[boneIndex] * Quaternion.Euler(correctionRightEulers[i]);
