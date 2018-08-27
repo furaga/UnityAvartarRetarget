@@ -7,7 +7,7 @@ namespace JustWithJoints.Avatars
 {
     public class SkeletonAvatar : MonoBehaviour
     {
-        public GameObject MotionPlayer;
+        public GameObject MotionProvider;
         public bool UseFK = false;
         public bool MoveRoot = true;
         private GameObject[] bones_ = null;
@@ -25,9 +25,9 @@ namespace JustWithJoints.Avatars
         void LateUpdate()
         {
             Core.Pose pose = null;
-            if (MotionPlayer)
+            if (MotionProvider)
             {
-                var component = MotionPlayer.GetComponent<MotionPlayer>();
+                var component = MotionProvider.GetComponent<MotionPlayer>();
                 if (component)
                 {
                     pose = component.GetCurrentPose();
@@ -39,13 +39,12 @@ namespace JustWithJoints.Avatars
                 if (UseFK)
                 {
                     drawSkeleton(pose.FK());
-                    //drawSkeletonLines(pose.FK(), new Vector3(1.5f, 0, 0));
-                    //drawSkeletonLines(pose.Positions, new Vector3(1.5f, 0, 0));
                 }
                 else
                 {
                     drawSkeleton(pose.Positions);
                 }
+                drawSkeletonLines(pose.Positions, new Vector3(1.5f, 0, 0));
             }
         }
 
@@ -103,16 +102,13 @@ namespace JustWithJoints.Avatars
             joints3D = joints3D.ToList();
             for (int i = 0; i < joints3D.Count; i++)
             {
-                //            joints3D[i] += offset;
+                joints3D[i] += offset;
             }
-
             var light_pink = color(233, 163, 201);
             var pink = color(197, 27, 125);
             var light_blue = color(145, 191, 219);
             var blue = color(69, 117, 180);
             var purple = color(118, 42, 131);
-
-            // line
             Debug.DrawLine(joints3D[(int)Core.JointType.RightAnkle], joints3D[(int)Core.JointType.RightKnee], light_pink);
             Debug.DrawLine(joints3D[(int)Core.JointType.RightKnee], joints3D[(int)Core.JointType.RightHip], light_pink);
             Debug.DrawLine(joints3D[(int)Core.JointType.RightShoulder], joints3D[(int)Core.JointType.RightHip], light_pink);
@@ -126,7 +122,6 @@ namespace JustWithJoints.Avatars
             Debug.DrawLine(joints3D[(int)Core.JointType.LeftElbow], joints3D[(int)Core.JointType.LeftWrist], blue);
             Debug.DrawLine(joints3D[(int)Core.JointType.LeftShoulder], joints3D[(int)Core.JointType.Neck], blue);
             Debug.DrawLine(joints3D[(int)Core.JointType.Neck], joints3D[(int)Core.JointType.Head], purple);
-
         }
 
 

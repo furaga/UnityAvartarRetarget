@@ -7,7 +7,7 @@ namespace JustWithJoints.Avatars
 {
     public class UnityChanAvatar : MonoBehaviour
     {
-        public GameObject MotionPlayer;
+        public GameObject MotionProvider;
         public bool RetargetPose = true;
         public bool RetargetRootLocation = true;
 
@@ -81,9 +81,9 @@ namespace JustWithJoints.Avatars
         void LateUpdate()
         {
             Core.Pose pose = null;
-            if (MotionPlayer)
+            if (MotionProvider)
             {
-                var component = MotionPlayer.GetComponent<MotionPlayer>();
+                var component = MotionProvider.GetComponent<MotionPlayer>();
                 if (component)
                 {
                     pose = component.GetCurrentPose();

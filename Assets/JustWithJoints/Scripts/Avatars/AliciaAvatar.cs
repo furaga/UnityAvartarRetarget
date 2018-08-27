@@ -7,7 +7,7 @@ namespace JustWithJoints.Avatars
 {
     public class AliciaAvatar : MonoBehaviour
     {
-        public GameObject MotionPlayer;
+        public GameObject MotionProvider;
         public bool EnableRetargetting = true;
         public bool RetargetTranslation = true;
 
@@ -34,7 +34,6 @@ namespace JustWithJoints.Avatars
         };
 
 
-        // Use this for initialization
         void Start()
         {
             var root = gameObject.transform.Find("Character001").transform.Find("root").gameObject;
@@ -100,9 +99,9 @@ namespace JustWithJoints.Avatars
         {
             // Get pose
             Core.Pose pose = null;
-            if (MotionPlayer)
+            if (MotionProvider)
             {
-                var component = MotionPlayer.GetComponent<MotionPlayer>();
+                var component = MotionProvider.GetComponent<MotionPlayer>();
                 if (component)
                 {
                     pose = component.GetCurrentPose();
