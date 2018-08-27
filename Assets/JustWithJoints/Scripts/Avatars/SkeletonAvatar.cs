@@ -79,23 +79,23 @@ namespace JustWithJoints.Avatars
             var purple = color(118, 42, 131);
 
             int boneId = 0;
-            drawBone(boneId++, joints3D[(int)Core.LSPJoints.RightAnkle], joints3D[(int)Core.LSPJoints.RightKnee], light_pink);
-            drawBone(boneId++, joints3D[(int)Core.LSPJoints.RightKnee], joints3D[(int)Core.LSPJoints.RightHip], light_pink);
-            drawBone(boneId++, joints3D[(int)Core.LSPJoints.RightShoulder], joints3D[(int)Core.LSPJoints.RightHip], light_pink);
+            drawBone(boneId++, joints3D[(int)Core.JointType.RightAnkle], joints3D[(int)Core.JointType.RightKnee], light_pink);
+            drawBone(boneId++, joints3D[(int)Core.JointType.RightKnee], joints3D[(int)Core.JointType.RightHip], light_pink);
+            drawBone(boneId++, joints3D[(int)Core.JointType.RightShoulder], joints3D[(int)Core.JointType.RightHip], light_pink);
 
-            drawBone(boneId++, joints3D[(int)Core.LSPJoints.LeftHip], joints3D[(int)Core.LSPJoints.LeftKnee], pink);
-            drawBone(boneId++, joints3D[(int)Core.LSPJoints.LeftKnee], joints3D[(int)Core.LSPJoints.LeftAnkle], pink);
-            drawBone(boneId++, joints3D[(int)Core.LSPJoints.LeftShoulder], joints3D[(int)Core.LSPJoints.LeftHip], pink);
+            drawBone(boneId++, joints3D[(int)Core.JointType.LeftHip], joints3D[(int)Core.JointType.LeftKnee], pink);
+            drawBone(boneId++, joints3D[(int)Core.JointType.LeftKnee], joints3D[(int)Core.JointType.LeftAnkle], pink);
+            drawBone(boneId++, joints3D[(int)Core.JointType.LeftShoulder], joints3D[(int)Core.JointType.LeftHip], pink);
 
-            drawBone(boneId++, joints3D[(int)Core.LSPJoints.RightWrist], joints3D[(int)Core.LSPJoints.RightElbow], light_blue);
-            drawBone(boneId++, joints3D[(int)Core.LSPJoints.RightElbow], joints3D[(int)Core.LSPJoints.RightShoulder], light_blue);
-            drawBone(boneId++, joints3D[(int)Core.LSPJoints.RightShoulder], joints3D[(int)Core.LSPJoints.Neck], light_blue);
+            drawBone(boneId++, joints3D[(int)Core.JointType.RightWrist], joints3D[(int)Core.JointType.RightElbow], light_blue);
+            drawBone(boneId++, joints3D[(int)Core.JointType.RightElbow], joints3D[(int)Core.JointType.RightShoulder], light_blue);
+            drawBone(boneId++, joints3D[(int)Core.JointType.RightShoulder], joints3D[(int)Core.JointType.Neck], light_blue);
 
-            drawBone(boneId++, joints3D[(int)Core.LSPJoints.LeftShoulder], joints3D[(int)Core.LSPJoints.LeftElbow], blue);
-            drawBone(boneId++, joints3D[(int)Core.LSPJoints.LeftElbow], joints3D[(int)Core.LSPJoints.LeftWrist], blue);
-            drawBone(boneId++, joints3D[(int)Core.LSPJoints.LeftShoulder], joints3D[(int)Core.LSPJoints.Neck], blue);
+            drawBone(boneId++, joints3D[(int)Core.JointType.LeftShoulder], joints3D[(int)Core.JointType.LeftElbow], blue);
+            drawBone(boneId++, joints3D[(int)Core.JointType.LeftElbow], joints3D[(int)Core.JointType.LeftWrist], blue);
+            drawBone(boneId++, joints3D[(int)Core.JointType.LeftShoulder], joints3D[(int)Core.JointType.Neck], blue);
 
-            drawBone(boneId++, joints3D[(int)Core.LSPJoints.Neck], joints3D[(int)Core.LSPJoints.Head], purple);
+            drawBone(boneId++, joints3D[(int)Core.JointType.Neck], joints3D[(int)Core.JointType.Head], purple);
         }
 
         void drawSkeletonLines(List<Vector3> joints3D, Vector3 offset)
@@ -113,19 +113,19 @@ namespace JustWithJoints.Avatars
             var purple = color(118, 42, 131);
 
             // line
-            Debug.DrawLine(joints3D[(int)Core.LSPJoints.RightAnkle], joints3D[(int)Core.LSPJoints.RightKnee], light_pink);
-            Debug.DrawLine(joints3D[(int)Core.LSPJoints.RightKnee], joints3D[(int)Core.LSPJoints.RightHip], light_pink);
-            Debug.DrawLine(joints3D[(int)Core.LSPJoints.RightShoulder], joints3D[(int)Core.LSPJoints.RightHip], light_pink);
-            Debug.DrawLine(joints3D[(int)Core.LSPJoints.LeftHip], joints3D[(int)Core.LSPJoints.LeftKnee], pink);
-            Debug.DrawLine(joints3D[(int)Core.LSPJoints.LeftKnee], joints3D[(int)Core.LSPJoints.LeftAnkle], pink);
-            Debug.DrawLine(joints3D[(int)Core.LSPJoints.LeftShoulder], joints3D[(int)Core.LSPJoints.LeftHip], pink);
-            Debug.DrawLine(joints3D[(int)Core.LSPJoints.RightWrist], joints3D[(int)Core.LSPJoints.RightElbow], light_blue);
-            Debug.DrawLine(joints3D[(int)Core.LSPJoints.RightElbow], joints3D[(int)Core.LSPJoints.RightShoulder], light_blue);
-            Debug.DrawLine(joints3D[(int)Core.LSPJoints.RightShoulder], joints3D[(int)Core.LSPJoints.Neck], light_blue);
-            Debug.DrawLine(joints3D[(int)Core.LSPJoints.LeftShoulder], joints3D[(int)Core.LSPJoints.LeftElbow], blue);
-            Debug.DrawLine(joints3D[(int)Core.LSPJoints.LeftElbow], joints3D[(int)Core.LSPJoints.LeftWrist], blue);
-            Debug.DrawLine(joints3D[(int)Core.LSPJoints.LeftShoulder], joints3D[(int)Core.LSPJoints.Neck], blue);
-            Debug.DrawLine(joints3D[(int)Core.LSPJoints.Neck], joints3D[(int)Core.LSPJoints.Head], purple);
+            Debug.DrawLine(joints3D[(int)Core.JointType.RightAnkle], joints3D[(int)Core.JointType.RightKnee], light_pink);
+            Debug.DrawLine(joints3D[(int)Core.JointType.RightKnee], joints3D[(int)Core.JointType.RightHip], light_pink);
+            Debug.DrawLine(joints3D[(int)Core.JointType.RightShoulder], joints3D[(int)Core.JointType.RightHip], light_pink);
+            Debug.DrawLine(joints3D[(int)Core.JointType.LeftHip], joints3D[(int)Core.JointType.LeftKnee], pink);
+            Debug.DrawLine(joints3D[(int)Core.JointType.LeftKnee], joints3D[(int)Core.JointType.LeftAnkle], pink);
+            Debug.DrawLine(joints3D[(int)Core.JointType.LeftShoulder], joints3D[(int)Core.JointType.LeftHip], pink);
+            Debug.DrawLine(joints3D[(int)Core.JointType.RightWrist], joints3D[(int)Core.JointType.RightElbow], light_blue);
+            Debug.DrawLine(joints3D[(int)Core.JointType.RightElbow], joints3D[(int)Core.JointType.RightShoulder], light_blue);
+            Debug.DrawLine(joints3D[(int)Core.JointType.RightShoulder], joints3D[(int)Core.JointType.Neck], light_blue);
+            Debug.DrawLine(joints3D[(int)Core.JointType.LeftShoulder], joints3D[(int)Core.JointType.LeftElbow], blue);
+            Debug.DrawLine(joints3D[(int)Core.JointType.LeftElbow], joints3D[(int)Core.JointType.LeftWrist], blue);
+            Debug.DrawLine(joints3D[(int)Core.JointType.LeftShoulder], joints3D[(int)Core.JointType.Neck], blue);
+            Debug.DrawLine(joints3D[(int)Core.JointType.Neck], joints3D[(int)Core.JointType.Head], purple);
 
         }
 

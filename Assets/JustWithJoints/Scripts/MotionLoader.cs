@@ -34,7 +34,7 @@ namespace JustWithJoints
                         {
                             while (motion.Poses.Count < currentFrame)
                             {
-                                motion.Poses.Add(pose);
+                                motion.AddPose(pose);
                             }
                             readPoseCount++;
                         }
@@ -48,7 +48,7 @@ namespace JustWithJoints
                 {
                     while (motion.Poses.Count < currentFrame)
                     {
-                        motion.Poses.Add(finalPose);
+                        motion.AddPose(finalPose);
                     }
                     readPoseCount++;
                 }

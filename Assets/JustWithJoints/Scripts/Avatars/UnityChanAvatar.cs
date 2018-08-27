@@ -101,15 +101,15 @@ namespace JustWithJoints.Avatars
                 {
                     for (int i = 0; i < 13; i++)
                     {
-                        // 1. Use spine's rotation of mocap as root rotation of avatar
-                        // 2. Instead, do not retarget to spine's rotation
                         int boneIndex = i;
-                        if (i == 0)
+                        if (i == (int)Core.BoneType.Trans)
                         {
-                            boneIndex = 5;
+                            // Use spine of Core.Pose as root of avatar
+                            boneIndex = (int)Core.BoneType.Spine;
                         }
-                        if (i == 5)
+                        if (i == (int)Core.BoneType.Spine)
                         {
+                            // Skip spine
                             continue;
                         }
                         bones_[i].transform.rotation = pose.Rotations[boneIndex];
