@@ -1,24 +1,21 @@
-# JustWithJoint: Avatar Body Controller with Joint Positions
+# JustWithJoints: Avatar Body Controller with Joint Positions
 
-JustWithJoint is a simple examples of controling 3D avatars just with joint locations.
-It estimates bone orientations from the joint locations and retarget three 3D avatars (skeleton, Unity-Chan and Alicia).
+JustWithJoints privides simple examples to control 3D avatars just with joint locations.
+It estimates bone lengths and orientations and retarget them to three 3D avatars (skeleton, Unity-Chan and Alicia).
 
 Especially, I believe this asset helps researchers of 3D pose estimation.
-Most of recent deep learning based approach output only 3D joint locations, not bone orientations.
-Some 3D mocap systems do not provide 3D joint locations, or these are not reliable.
+Most of recent deep learning based approaches output only 3D joint locations.
 
-In these case, they need to find bone rotations just from joint locations.
-However, contrary againt intuition, how to do this is not obvious and sample code is hard to find.
-(At least, I could not google any good sample)
+In these case, researchers need to estimate bone orientations just from joint 3D locations.
+However, againt intuition, how to do this is not obvious and it is hard to find sample codes.
+(At least, I could not google anything helpful)
 
-JustWithJoint contains simple and great examples:
-- Scenes/1_Locations - Control a skeleton simply by retargetting joint locations.
-- Scenes/2_Skeleton  - Control a skeleton by estimating bone rotations and forward kinematics
-- Scenes/3_Avatar    - Control three 3D avatars (skeleton, Unity-Chan and Alicia) with the estimated bone rotations from joint locations.
+JustWithJoints is for you! It contains simple and great examples:
+- Assets/JustWithJoints/Scenes/1_Locations.unity: Control a skeleton simply by retargetting joint locations.
+- Assets/JustWithJoints/Scenes/2_FK.unity       : Control a skeleton by estimating bone rotations and running forward kinematics
+- Assets/JustWithJoints/Scenes/3_Avatars.unity  : Control three 3D avatars (skeleton, Unity-Chan and Alicia) with the estimated bone orientations.
 
-Internally, we convert LSP-order 14 joints to 13 bone rotations.
-
-You can use this asset for any purpose. Of coource, commercial use is OK, excepting the contents in JustWithJoint/UnityChan/ and JustWithJoint/Alicia/.
+Internally, we convert 14 joint locations to 13 bone lengths and orientations.
 
 
 ## Features
@@ -28,8 +25,8 @@ You can use this asset for any purpose. Of coource, commercial use is OK, except
 
 ## How to use
 
-1. Import JustWithJoint.unitypackage
-2. Open any of scenes in Assets/JustWithJoint/Scenes and run
+1. Import JustWithJoints.unitypackage
+2. Open any of scenes in Assets/JustWithJoints/Scenes and run it.
 3. You can find one or more avatars are animating.
 
 
@@ -44,3 +41,9 @@ We use the folowing third-party 3D models.
 2. Alicia (ニコニコ立体ちゃん), version 4
    - We downloaded from http://3d.nicovideo.jp/works/td14712
 
+
+## Motions
+
+The motion files in Assets/JustWithJoints/MotionData are made from `CMU Graphics Lab Motion Capture Database`.
+We read asf/amc files, calculated joint locations and save as the text files.
+cf. http://mocap.cs.cmu.edu/
