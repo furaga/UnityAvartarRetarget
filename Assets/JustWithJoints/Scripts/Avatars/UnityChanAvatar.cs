@@ -14,31 +14,29 @@ namespace JustWithJoints.Avatars
         List<GameObject> joints_ = new List<GameObject>();
         List<GameObject> bones_ = new List<GameObject>();
 
-
-        // Use this for initialization
         void Start()
         {
             var root = gameObject.transform.Find("Character1_Reference").gameObject;
             var hips = root.gameObject.transform.Find("Character1_Hips").gameObject;
-            var rightUpLeg = hips.transform.Find("Character1_LeftUpLeg").gameObject;
-            var rightLeg = rightUpLeg.transform.Find("Character1_LeftLeg").gameObject;
-            var rightFoot = rightLeg.transform.Find("Character1_LeftFoot").gameObject;
-            var rightToeBase = rightFoot.transform.Find("Character1_LeftToeBase").gameObject;
-            var leftUpLeg = hips.transform.Find("Character1_RightUpLeg").gameObject;
-            var leftLeg = leftUpLeg.transform.Find("Character1_RightLeg").gameObject;
-            var leftFoot = leftLeg.transform.Find("Character1_RightFoot").gameObject;
-            var leftToeBase = leftFoot.transform.Find("Character1_RightToeBase").gameObject;
+            var rightUpLeg = hips.transform.Find("Character1_RightUpLeg").gameObject;
+            var rightLeg = rightUpLeg.transform.Find("Character1_RightLeg").gameObject;
+            var rightFoot = rightLeg.transform.Find("Character1_RightFoot").gameObject;
+            var rightToeBase = rightFoot.transform.Find("Character1_RightToeBase").gameObject;
+            var leftUpLeg = hips.transform.Find("Character1_LeftUpLeg").gameObject;
+            var leftLeg = leftUpLeg.transform.Find("Character1_LeftLeg").gameObject;
+            var leftFoot = leftLeg.transform.Find("Character1_LeftFoot").gameObject;
+            var leftToeBase = leftFoot.transform.Find("Character1_LeftToeBase").gameObject;
             var spine = hips.transform.Find("Character1_Spine").gameObject;
             var spine1 = spine.transform.Find("Character1_Spine1").gameObject;
             var spine2 = spine1.transform.Find("Character1_Spine2").gameObject;
-            var rightShoulder = spine2.transform.Find("Character1_LeftShoulder").gameObject;
-            var rightArm = rightShoulder.transform.Find("Character1_LeftArm").gameObject;
-            var rightForeArm = rightArm.transform.Find("Character1_LeftForeArm").gameObject;
-            var rightHand = rightForeArm.transform.Find("Character1_LeftHand").gameObject;
-            var leftShoulder = spine2.transform.Find("Character1_RightShoulder").gameObject;
-            var leftArm = leftShoulder.transform.Find("Character1_RightArm").gameObject;
-            var leftForeArm = leftArm.transform.Find("Character1_RightForeArm").gameObject;
-            var leftHand = leftForeArm.transform.Find("Character1_RightHand").gameObject;
+            var rightShoulder = spine2.transform.Find("Character1_RightShoulder").gameObject;
+            var rightArm = rightShoulder.transform.Find("Character1_RightArm").gameObject;
+            var rightForeArm = rightArm.transform.Find("Character1_RightForeArm").gameObject;
+            var rightHand = rightForeArm.transform.Find("Character1_RightHand").gameObject;
+            var leftShoulder = spine2.transform.Find("Character1_LeftShoulder").gameObject;
+            var leftArm = leftShoulder.transform.Find("Character1_LeftArm").gameObject;
+            var leftForeArm = leftArm.transform.Find("Character1_LeftForeArm").gameObject;
+            var leftHand = leftForeArm.transform.Find("Character1_LeftHand").gameObject;
             var neck = spine2.transform.Find("Character1_Neck").gameObject;
             var head = neck.transform.Find("Character1_Head").gameObject;
 
@@ -83,7 +81,7 @@ namespace JustWithJoints.Avatars
             Core.Pose pose = null;
             if (MotionProvider)
             {
-                var component = MotionProvider.GetComponent<MotionPlayer>();
+                var component = MotionProvider.GetComponent<CMUMotionPlayer>();
                 if (component)
                 {
                     pose = component.GetCurrentPose();

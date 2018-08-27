@@ -27,7 +27,7 @@ namespace JustWithJoints.Avatars
             Core.Pose pose = null;
             if (MotionProvider)
             {
-                var component = MotionProvider.GetComponent<MotionPlayer>();
+                var component = MotionProvider.GetComponent<CMUMotionPlayer>();
                 if (component)
                 {
                     pose = component.GetCurrentPose();

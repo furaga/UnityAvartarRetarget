@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace JustWithJoints
 {
-    public class MotionLoader
+    public class CMUMotionLoader
     {
-        public static Core.Motion Load(string dataPath)
+        public static Core.Motion Load(string dataPath, bool flip)
         {
             Core.Motion motion = new Core.Motion();
 
@@ -29,7 +29,7 @@ namespace JustWithJoints
                     int frame = parseLine(line, Js);
                     if (frame >= 0)
                     {
-                        var pose = ToPose(currentFrame, Js);
+                        var pose = createPose(currentFrame, Js, flip);
                         if (pose != null)
                         {
                             while (motion.Poses.Count < currentFrame)
@@ -43,7 +43,7 @@ namespace JustWithJoints
                     }
                 }
 
-                var finalPose = ToPose(currentFrame, Js);
+                var finalPose = createPose(currentFrame, Js, flip);
                 if (finalPose != null)
                 {
                     while (motion.Poses.Count < currentFrame)
@@ -96,9 +96,25 @@ namespace JustWithJoints
             return -1;
         }
 
-        static Core.Pose ToPose(int frame, Dictionary<string, Vector3> Js)
+        static Core.Pose createPose(int frame, Dictionary<string, Vector3> Js, bool flip)
         {
-            string[] bones = {
+            string[] bonesFlip = {
+                "ltibia",
+                "lfemur",
+                "lhipjoint",
+                "rhipjoint",
+                "rfemur",
+                "rtibia", //5
+                "lwrist",
+                "lhumerus",
+                "lclavicle",
+                "rclavicle",
+                "rhumerus",
+                "rwrist",
+                "thorax",
+                "head",
+            };
+            string[] bonesNoFlip = {
                 "rtibia",
                 "rfemur",
                 "rhipjoint",
@@ -114,6 +130,8 @@ namespace JustWithJoints
                 "thorax",
                 "head",
             };
+
+            var bones = flip ? bonesFlip : bonesNoFlip;
 
             var positions = new List<Vector3>();
             for (int i = 0; i < bones.Length; i++)

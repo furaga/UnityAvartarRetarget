@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace JustWithJoints
 {
-    public class MotionPlayer : MonoBehaviour
+    public class CMUMotionPlayer : MonoBehaviour
     {
-
         public string DataPath = "Assets/FAvatarRetarget/Resources/sample.txt";
         public float Timer = 0.0f;
         public float FPS = 120.0f;
         public bool Loop = true;
         public bool Play = true;
+        public bool FlipLeftRight = true;
 
         private Core.Motion motion_ = null;
         private int frame_ = 0;
@@ -19,7 +19,7 @@ namespace JustWithJoints
         // Use this for initialization
         void Start()
         {
-            motion_ = MotionLoader.Load(DataPath);
+            motion_ = CMUMotionLoader.Load(DataPath, FlipLeftRight);
         }
 
         // Update is called once per frame
