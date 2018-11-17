@@ -1,4 +1,4 @@
-# JustWithJoints: Avatar Body Controller with Joint Positions
+# JustWithJoints: Avatar Body Controller with Joint Locations
 
 JustWithJoints privides simple examples to control 3D avatars just with joint locations.
 It estimates bone lengths and orientations and retarget them to three 3D avatars (skeleton, Unity-Chan and Alicia).
@@ -9,6 +9,7 @@ Most of recent deep learning based approaches output only 3D joint locations.
 In these case, researchers need to estimate bone orientations just from joint 3D locations.
 However, againt intuition, how to do this is not obvious and it is hard to find sample codes.
 (At least, I could not google anything helpful)
+(Inverse kinematics often generate unstable results because they are dependent on initial pose)
 
 JustWithJoints is for you! It contains simple and great examples:
 - Assets/JustWithJoints/Scenes/1_Locations.unity: Control a skeleton simply by retargetting joint locations.
@@ -26,20 +27,21 @@ Internally, we convert 14 joint locations to 13 bone lengths and orientations.
 ## How to use
 
 1. Import JustWithJoints.unitypackage
-2. Open any of scenes in Assets/JustWithJoints/Scenes and run it.
-3. You can find one or more avatars are animating.
 
+2. Download and import two third-party 3D models.
+   They are necessary to run the scene `3_Avatars.unity`
 
-## 3D models
+    A. Unity-chan model, version 1.2.1
+       - Download from http://unity-chan.com/download/index.php
+       - Import `UnityChan_1_2_1.unitypackage`
 
-We use the folowing third-party 3D models.
+    B. Alicia (ニコニコ立体ちゃん), version 4
+       - Download from http://3d.nicovideo.jp/works/td14712
+       - Import `Alicia/Alicia/Unity Package/Alicia.unitypackage`
 
-1. Unity-chan model, version 1.2.1
-   - We downloaded from http://unity-chan.com/download/index.php
-   - Copyright: © Unity Technologies Japan/UCL
+3. Open any of scenes in Assets/JustWithJoints/Scenes and run it.
 
-2. Alicia (ニコニコ立体ちゃん), version 4
-   - We downloaded from http://3d.nicovideo.jp/works/td14712
+4. You can find one or more avatars are animating!
 
 
 ## Motions
