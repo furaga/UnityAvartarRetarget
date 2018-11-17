@@ -14,11 +14,45 @@ namespace JustWithJoints.Core
         public List<Quaternion> LocalRotations { get; set; }
         public List<Quaternion> Rotations { get; set; }
 
-        public Pose(int frame, List<Vector3> positons)
+        public Pose(int frame, List<Vector3> positions, bool flipLeftRight = false)
         {
             Frame = frame;
-            Positions = positons.ToList();
+            if (flipLeftRight)
+            {
+                positions = flipLR(positions);
+            }
+            Positions = positions.ToList();
             Refresh();
+        }
+
+        List<Vector3> flipLR(List<Vector3> positions)
+        {
+            int[] inds = new[] {
+                (int)JointType.LeftAnkle,
+                (int)JointType.LeftKnee,
+                (int)JointType.LeftHip,
+                (int)JointType.RightHip,
+                (int)JointType.RightKnee,
+                (int)JointType.RightAnkle,
+                (int)JointType.LeftWrist,
+                (int)JointType.LeftElbow,
+                (int)JointType.LeftShoulder,
+                (int)JointType.RightShoulder,
+                (int)JointType.RightElbow,
+                (int)JointType.RightWrist,
+                (int)JointType.Neck,
+                (int)JointType.Head,
+            };
+
+            var newPositions = new List<Vector3>();
+            foreach (int i in inds)
+            {
+                var p = positions[i];
+                p.x = -p.x;
+                newPositions.Add(p);
+            }
+
+            return newPositions;
         }
 
         public void Refresh()

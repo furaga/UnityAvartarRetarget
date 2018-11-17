@@ -57,39 +57,21 @@ namespace JustWithJoints.Avatars
             var leftHand = leftForeArm.transform.Find("wrist_L").gameObject;
             var neck = spine1.transform.Find("neck").gameObject;
             var head = neck.transform.Find("head").gameObject;
-
-            joints.AddRange(new GameObject[]
-            {
-                rightFoot,
-                rightLeg,
-                rightUpLeg,
-                leftUpLeg,
-                leftLeg,
-                leftFoot,
-                rightHand,
-                rightForeArm,
-                rightShoulder,
-                leftShoulder,
-                leftForeArm,
-                leftHand,
-                neck,
-                head,
-            });
-
+            
             bones_.AddRange(new GameObject[]
             {
                 hips,
-                rightUpLeg,
-                rightLeg,
                 leftUpLeg,
                 leftLeg,
+                rightUpLeg,
+                rightLeg,
                 spine,
-                rightShoulder,
-                rightArm,
-                rightForeArm,
                 leftShoulder,
                 leftArm,
                 leftForeArm,
+                rightShoulder,
+                rightArm,
+                rightForeArm,
                 neck,
             });
         }

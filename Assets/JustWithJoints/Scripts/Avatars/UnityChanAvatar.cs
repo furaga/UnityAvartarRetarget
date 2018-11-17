@@ -34,45 +34,27 @@ namespace JustWithJoints.Avatars
             var rightArm = rightShoulder.transform.Find("Character1_RightArm").gameObject;
             var rightForeArm = rightArm.transform.Find("Character1_RightForeArm").gameObject;
             var rightHand = rightForeArm.transform.Find("Character1_RightHand").gameObject;
-            var leftShoulder = spine2.transform.Find("Character1_RightShoulder").gameObject;
-            var leftArm = leftShoulder.transform.Find("Character1_RightArm").gameObject;
-            var leftForeArm = leftArm.transform.Find("Character1_RightForeArm").gameObject;
-            var leftHand = leftForeArm.transform.Find("Character1_RightHand").gameObject;
+            var leftShoulder = spine2.transform.Find("Character1_LeftShoulder").gameObject;
+            var leftArm = leftShoulder.transform.Find("Character1_LeftArm").gameObject;
+            var leftForeArm = leftArm.transform.Find("Character1_LeftForeArm").gameObject;
+            var leftHand = leftForeArm.transform.Find("Character1_LeftHand").gameObject;
             var neck = spine2.transform.Find("Character1_Neck").gameObject;
             var head = neck.transform.Find("Character1_Head").gameObject;
-
-            joints_.AddRange(new GameObject[]
-            {
-                rightFoot,
-                rightLeg,
-                rightUpLeg,
-                leftUpLeg,
-                leftLeg,
-                leftFoot,
-                rightHand,
-                rightForeArm,
-                rightShoulder,
-                leftShoulder,
-                leftForeArm,
-                leftHand,
-                neck,
-                head,
-            });
-
+            
             bones_.AddRange(new GameObject[]
             {
                 hips,
-                rightUpLeg,
-                rightLeg,
                 leftUpLeg,
                 leftLeg,
+                rightUpLeg,
+                rightLeg,
                 spine,
-                rightShoulder,
-                rightArm,
-                rightForeArm,
                 leftShoulder,
                 leftArm,
                 leftForeArm,
+                rightShoulder,
+                rightArm,
+                rightForeArm,
                 neck,
             });
         }
