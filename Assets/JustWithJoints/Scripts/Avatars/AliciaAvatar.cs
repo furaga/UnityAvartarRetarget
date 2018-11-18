@@ -20,17 +20,17 @@ namespace JustWithJoints.Avatars
         /*public*/ Vector3[] correctionRightEulers = new Vector3[13]
         {
             new Vector3(0, -90, 180),
-            new Vector3(0, 90, -90),
-            new Vector3(0, 90, -90),
-            new Vector3(0, 90, -90),
-            new Vector3(0, 90, -90),
+            new Vector3(0, 90, 180),
+            new Vector3(0, 90, 180),
+            new Vector3(0, 90, 180),
+            new Vector3(0, 90, 180),
             new Vector3(0, 0, 0),
+            new Vector3(0, 0, 0),
+            new Vector3(0, 90, 0),
+            new Vector3(0, 90, 0),
             new Vector3(0, 0, 0),
             new Vector3(0, -90, 180),
             new Vector3(0, -90, 180),
-            new Vector3(0, 0, 0),
-            new Vector3(0, 90, 180),
-            new Vector3(0, 90, 180),
             new Vector3(0, -90, 180),
         };
 

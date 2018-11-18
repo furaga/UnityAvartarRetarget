@@ -10,58 +10,51 @@ namespace JustWithJoints.Core
         public int Frame;
 
         public List<Vector3> Positions { get; set; }
+        public List<Vector3> RawPositions { get; set; }
         public List<float> BoneLengths { get; set; }
         public List<Quaternion> LocalRotations { get; set; }
         public List<Quaternion> Rotations { get; set; }
 
-        public Pose(int frame, List<Vector3> positions, bool flipLeftRight = false)
+        public Pose(int frame, List<Vector3> positions, Core.CoordinateSystemType coordinateSystem = CoordinateSystemType.LeftHanded)
         {
             Frame = frame;
-            if (flipLeftRight)
-            {
-                positions = flipLR(positions);
-            }
-            Positions = positions.ToList();
-            Refresh();
+            RawPositions = positions.ToList();
+            Refresh(coordinateSystem);
         }
-
-        List<Vector3> flipLR(List<Vector3> positions)
+        
+        public void Refresh(Core.CoordinateSystemType coordinateSystem)
         {
-            int[] inds = new[] {
-                (int)JointType.LeftAnkle,
-                (int)JointType.LeftKnee,
-                (int)JointType.LeftHip,
-                (int)JointType.RightHip,
-                (int)JointType.RightKnee,
-                (int)JointType.RightAnkle,
-                (int)JointType.LeftWrist,
-                (int)JointType.LeftElbow,
-                (int)JointType.LeftShoulder,
-                (int)JointType.RightShoulder,
-                (int)JointType.RightElbow,
-                (int)JointType.RightWrist,
-                (int)JointType.Neck,
-                (int)JointType.Head,
-            };
+            Positions = RawPositions.ToList();
+            //if (coordinateSystem == CoordinateSystemType.RightHanded)
+            //{
+            //    for (int i = 0; i < Positions.Count; i++)
+            //    {
+            //        var p = Positions[i];
+            //        p.x = -p.x;
+            //        Positions[i] = p;
+            //    }
+            //}
 
-            var newPositions = new List<Vector3>();
-            foreach (int i in inds)
-            {
-                var p = positions[i];
-                p.x = -p.x;
-                newPositions.Add(p);
-            }
-
-            return newPositions;
-        }
-
-        public void Refresh()
-        {
             BoneLengths = new List<float>();
             LocalRotations = new List<Quaternion>();
             Rotations = new List<Quaternion>();
             calculateBoneLengths();
             calculateBoneRotations();
+
+
+            var newRotations = new List<Quaternion>();
+            var newLocalRotations = new List<Quaternion>();
+            var newBoneLengths = new List<float>();
+            foreach (var i in new[] { 0, 3, 4, 1, 2, 5, 9, 10, 11, 6, 7, 8, 12 })
+            {
+                newRotations.Add(Rotations[i]);
+                newLocalRotations.Add(LocalRotations[i]);
+                newBoneLengths.Add(BoneLengths[i]);
+            }
+
+            Rotations = newRotations.ToList();
+            newLocalRotations = LocalRotations.ToList();
+            newBoneLengths = BoneLengths.ToList();
         }
 
         void calculateBoneLengths()
@@ -97,8 +90,9 @@ namespace JustWithJoints.Core
                 var boneLength = translate.magnitude;
                 BoneLengths.Add(boneLength);
             }
+           
         }
-
+        
         void calculateBoneRotations()
         {
             // Global Rotations
