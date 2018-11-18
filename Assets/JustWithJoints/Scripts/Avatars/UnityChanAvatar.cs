@@ -44,17 +44,17 @@ namespace JustWithJoints.Avatars
             bones_.AddRange(new GameObject[]
             {
                 hips,
-                leftUpLeg,
-                leftLeg,
                 rightUpLeg,
                 rightLeg,
+                leftUpLeg,
+                leftLeg,
                 spine,
-                leftShoulder,
-                leftArm,
-                leftForeArm,
                 rightShoulder,
                 rightArm,
                 rightForeArm,
+                leftShoulder,
+                leftArm,
+                leftForeArm,
                 neck,
             });
         }

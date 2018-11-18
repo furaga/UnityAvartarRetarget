@@ -8,7 +8,7 @@ namespace JustWithJoints
 {
     public class CMUMotionLoader
     {
-        public static Core.Motion Load(string dataPath, bool flipLeftRight = false)
+        public static Core.Motion Load(string dataPath, Core.CoordinateSystemType coordinateSystem = Core.CoordinateSystemType.LeftHanded)
         {
             Core.Motion motion = new Core.Motion();
 
@@ -29,7 +29,7 @@ namespace JustWithJoints
                     int frame = parseLine(line, Js);
                     if (frame >= 0)
                     {
-                        var pose = ToPose(currentFrame, Js, flipLeftRight);
+                        var pose = ToPose(currentFrame, Js, coordinateSystem);
                         if (pose != null)
                         {
                             while (motion.Poses.Count < currentFrame)
@@ -43,7 +43,7 @@ namespace JustWithJoints
                     }
                 }
 
-                var finalPose = ToPose(currentFrame, Js, flipLeftRight);
+                var finalPose = ToPose(currentFrame, Js, coordinateSystem);
                 if (finalPose != null)
                 {
                     while (motion.Poses.Count < currentFrame)
@@ -96,7 +96,7 @@ namespace JustWithJoints
             return -1;
         }
 
-        static Core.Pose ToPose(int frame, Dictionary<string, Vector3> Js, bool flipLeftRight)
+        static Core.Pose ToPose(int frame, Dictionary<string, Vector3> Js, Core.CoordinateSystemType coordinateSystem)
         {
             string[] bones = {
                 "rtibia",
@@ -122,10 +122,11 @@ namespace JustWithJoints
                 {
                     return null;
                 }
-                positions.Add(Js[bones[i]] * 0.056444f);
+                var p = Js[bones[i]] * 0.056444f;
+                positions.Add(p);
             }
 
-            Core.Pose pose = new Core.Pose(frame, positions, flipLeftRight);
+            Core.Pose pose = new Core.Pose(frame, positions, coordinateSystem);
 
             return pose;
         }

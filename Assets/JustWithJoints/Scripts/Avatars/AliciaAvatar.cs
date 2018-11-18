@@ -8,6 +8,7 @@ namespace JustWithJoints.Avatars
     public class AliciaAvatar : MonoBehaviour
     {
         public GameObject MotionProvider;
+
         public bool EnableRetargetting = true;
         public bool RetargetTranslation = true;
 
@@ -61,17 +62,17 @@ namespace JustWithJoints.Avatars
             bones_.AddRange(new GameObject[]
             {
                 hips,
-                leftUpLeg,
-                leftLeg,
                 rightUpLeg,
                 rightLeg,
+                leftUpLeg,
+                leftLeg,
                 spine,
-                leftShoulder,
-                leftArm,
-                leftForeArm,
                 rightShoulder,
                 rightArm,
                 rightForeArm,
+                leftShoulder,
+                leftArm,
+                leftForeArm,
                 neck,
             });
         }

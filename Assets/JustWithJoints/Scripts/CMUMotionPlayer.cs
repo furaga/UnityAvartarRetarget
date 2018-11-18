@@ -8,6 +8,8 @@ namespace JustWithJoints
     public class CMUMotionPlayer : MonoBehaviour
     {
         public string DataPath = "Assets/FAvatarRetarget/Resources/sample.txt";
+        public Core.CoordinateSystemType CoodinateSystem = Core.CoordinateSystemType.RightHanded;
+
         public bool FlipLeftRight = false;
         public float Timer = 0.0f;
         public float FPS = 120.0f;
@@ -39,7 +41,7 @@ namespace JustWithJoints
         // Use this for initialization
         void Start()
         {
-            motion_ = CMUMotionLoader.Load(DataPath, FlipLeftRight);
+            motion_ = CMUMotionLoader.Load(DataPath, CoodinateSystem);
         }
 
         // Update is called once per frame
