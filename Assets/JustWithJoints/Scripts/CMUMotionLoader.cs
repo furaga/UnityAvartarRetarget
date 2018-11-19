@@ -126,7 +126,17 @@ namespace JustWithJoints
                 positions.Add(p);
             }
 
-            Core.Pose pose = new Core.Pose(frame, positions, coordinateSystem);
+            if (coordinateSystem == Core.CoordinateSystemType.RightHanded)
+            {
+                for (int i = 0; i < positions.Count; i++)
+                {
+                    var p = positions[i];
+                    p.x = -p.x;
+                    positions[i] = p;
+                }
+            }
+
+            Core.Pose pose = new Core.Pose(frame, positions);
 
             return pose;
         }
