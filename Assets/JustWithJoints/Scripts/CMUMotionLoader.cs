@@ -8,7 +8,7 @@ namespace JustWithJoints
 {
     public class CMUMotionLoader
     {
-        public static Core.Motion Load(string dataPath, Core.CoordinateSystemType coordinateSystem = Core.CoordinateSystemType.LeftHanded)
+        public static Core.Motion Load(string dataPath, Core.CoordinateSystemType coordinateSystem = Core.CoordinateSystemType.RightHanded)
         {
             Core.Motion motion = new Core.Motion();
 
@@ -128,6 +128,7 @@ namespace JustWithJoints
 
             if (coordinateSystem == Core.CoordinateSystemType.RightHanded)
             {
+                // Convert to left-handed because Core.Pose() treats input joint locations as left-handed 
                 for (int i = 0; i < positions.Count; i++)
                 {
                     var p = positions[i];

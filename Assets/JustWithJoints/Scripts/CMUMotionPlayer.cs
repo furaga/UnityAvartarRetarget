@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿// #define ENABLE_DEBUG_POSE
+
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,12 +12,11 @@ namespace JustWithJoints
         public string DataPath = "Assets/FAvatarRetarget/Resources/sample.txt";
         public Core.CoordinateSystemType CoodinateSystem = Core.CoordinateSystemType.RightHanded;
 
-        public bool FlipLeftRight = false;
         public float Timer = 0.0f;
         public float FPS = 120.0f;
         public bool Loop = true;
         public bool Play = true;
-
+#if ENABLE_DEBUG_POSE
         public bool DebugFixedPoseMode = false;
         const float DebugFixedPoseScale = 0.5f;
         public Vector3[] DebugFixedPose = new Vector3[] {
@@ -34,7 +35,7 @@ namespace JustWithJoints
             new Vector3(0, 4, 0) * DebugFixedPoseScale,
             new Vector3(0, 5, 0) * DebugFixedPoseScale,
         };
-
+#endif
         private Core.Motion motion_ = null;
         private int frame_ = 0;
 
@@ -61,11 +62,12 @@ namespace JustWithJoints
 
         public Core.Pose GetCurrentPose()
         {
+#if ENABLE_DEBUG_POSE
             if (DebugFixedPoseMode)
             {
                 return new Core.Pose(0, DebugFixedPose.ToList());
             }
-
+#endif
             if (frame_ < 0 || motion_.Poses.Count <= frame_)
             {
                 return null;
